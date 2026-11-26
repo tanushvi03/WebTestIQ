@@ -1,0 +1,35 @@
+{
+  "sessionId": "36af8378-0211-4f6d-953d-f8f95e94afb4",
+  "url": "https://example.com/",
+  "status": "completed",
+  "createdAt": "2026-09-22T15:14:19.946Z",
+  "summary": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "score": 100
+  },
+  "ui": {
+    "passed": 0,
+    "failed": 0,
+    "tests": [],
+    "issues": [
+      {
+        "description": "UI testing aborted: browser.newContext: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/tanushvimadaan/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/tb/m5r7m9sx5ps1by2b12q83yp00000gn/T/playwright_chromiumdev_profile-20PnvK --remote-debugging-pipe --no-startup-window\n<launched> pid=43058\n[pid=43058] <gracefully close start>",
+        "severity": "critical"
+      }
+    ],
+    "screenshots": [],
+    "consoleErrors": []
+  },
+  "accessibility": null,
+  "api": null,
+  "aiAnalysis": {
+    "summary": "The website is in good overall health.",
+    "failures": [],
+    "recommendations": [
+      "Re-run tests after fixes to confirm issues are resolved."
+    ],
+    "model": "Offline (rule-based)"
+  }
+}

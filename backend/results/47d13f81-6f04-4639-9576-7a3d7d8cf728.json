@@ -1,0 +1,43 @@
+{
+  "sessionId": "47d13f81-6f04-4639-9576-7a3d7d8cf728",
+  "url": "https://example.com/",
+  "status": "completed",
+  "createdAt": "2026-11-01T23:19:18.719Z",
+  "summary": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "score": 100
+  },
+  "crawl": {
+    "startUrl": "https://example.com/",
+    "totalDiscovered": 1,
+    "totalVisited": 1,
+    "publicPages": [
+      {
+        "url": "https://example.com/",
+        "finalUrl": "https://example.com/",
+        "httpCode": 200,
+        "timestamp": "2026-11-01T23:19:20.637Z",
+        "screenshotIndex": null,
+        "status": "public",
+        "reason": ""
+      }
+    ],
+    "authPages": [],
+    "errorPages": [],
+    "limited": false,
+    "screenshots": []
+  },
+  "ui": null,
+  "accessibility": null,
+  "api": null,
+  "aiAnalysis": {
+    "summary": "The website is in good overall health.",
+    "failures": [],
+    "recommendations": [
+      "Re-run tests after fixes to confirm issues are resolved."
+    ],
+    "model": "Offline (rule-based)"
+  }
+}

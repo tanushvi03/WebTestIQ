@@ -1,0 +1,295 @@
+/* ═══════════════════════════════════════════════════════
+   Cucumber BDD Reports Page
+   ═══════════════════════════════════════════════════════ */
+
+.cq-page {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.page-title { font-size: 1.6rem; font-weight: 800; }
+.page-sub   { font-size: 0.9rem; margin-top: 0.25rem; }
+
+.cq-header-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+.cq-error-banner {
+  background: rgba(224,96,96,0.12);
+  border: 1px solid var(--danger);
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* BDD run status banner */
+.cq-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+.cq-banner-info    { background: rgba(91,175,212,0.1);  border: 1px solid var(--info);    color: var(--info);    }
+.cq-banner-success { background: rgba(82,196,122,0.1);   border: 1px solid var(--success); color: var(--success); }
+.cq-banner-error   { background: rgba(224,96,96,0.1);   border: 1px solid var(--danger);  color: var(--danger);  }
+
+.cq-banner-close {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  padding: 0 0.25rem;
+}
+.cq-banner-close:hover { opacity: 1; }
+
+/* ── Runs Table ──────────────────────────────────────────── */
+.cq-runs-table { font-size: 0.85rem; }
+.cq-runs-table table { width: 100%; border-collapse: collapse; }
+
+.cq-runs-table th {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+}
+
+.cq-runs-table td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: middle;
+}
+.cq-runs-table tr:last-child td { border-bottom: none; }
+.cq-runs-table tbody tr:hover { background: var(--bg-card-hover); }
+.cq-row-active { background: rgba(255,255,255,0.04) !important; }
+
+.cq-run-id {
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Summary Cards ──────────────────────────────────────── */
+.cq-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.cq-summary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.9rem 1rem;
+  border-left: 3px solid var(--border);
+}
+.cq-sc-pass { border-left-color: var(--success); }
+.cq-sc-fail { border-left-color: var(--danger);  }
+.cq-sc-skip { border-left-color: var(--warning); }
+
+.cq-sc-val { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+.cq-sc-lbl {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+
+/* ── Detail Actions ─────────────────────────────────────── */
+.cq-detail-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Feature Cards ──────────────────────────────────────── */
+.cq-features { display: flex; flex-direction: column; gap: 1rem; }
+
+.cq-feature { display: flex; flex-direction: column; gap: 0; }
+
+.cq-feature-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.cq-feature-icon { font-size: 1rem; }
+.cq-feature-name { font-size: 0.9rem; font-weight: 700; flex: 1; }
+.cq-feature-stats { display: flex; gap: 0.85rem; font-size: 0.78rem; }
+
+/* ── Scenarios ──────────────────────────────────────────── */
+.cq-scenarios {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cq-scenario {
+  border-bottom: 1px solid rgba(51,65,85,0.3);
+}
+.cq-scenario:last-child { border-bottom: none; }
+
+.cq-scenario-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+  transition: background 0.15s;
+}
+.cq-scenario-header:hover { background: rgba(255,255,255,0.02); }
+
+.cq-scenario-name { flex: 1; font-weight: 500; }
+.cq-scenario-type { font-size: 0.7rem; }
+.cq-scenario-dur  { font-size: 0.75rem; min-width: 50px; text-align: right; }
+.cq-expand-toggle { font-size: 0.7rem; color: var(--text-muted); }
+
+/* Status icon colours */
+.cq-step-icon {
+  font-size: 0.8rem;
+  font-weight: 700;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.cq-status-pass  .cq-step-icon { color: var(--success); }
+.cq-status-fail  .cq-step-icon { color: var(--danger);  }
+.cq-status-skip  .cq-step-icon { color: var(--warning); }
+.cq-status-undef .cq-step-icon { color: var(--info);    }
+
+.cq-scenario.cq-status-fail { background: rgba(224,96,96,0.03); }
+.cq-scenario.cq-status-pass { background: rgba(82,196,122,0.02); }
+
+/* ── Steps ───────────────────────────────────────────────── */
+.cq-steps {
+  padding: 0.4rem 1rem 0.65rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cq-step {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+}
+.cq-step-keyword { font-weight: 600; min-width: 50px; }
+.cq-step-name { color: var(--text-secondary); flex: 1; }
+.cq-step-dur { font-size: 0.72rem; min-width: 40px; text-align: right; }
+
+.cq-step-error {
+  width: 100%;
+  background: var(--bg-primary);
+  border: 1px solid var(--danger);
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.75rem;
+  color: var(--danger);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 0.2rem;
+}
+
+/* ── Failure Screenshot ──────────────────────────────────── */
+.cq-fail-ss {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+}
+.cq-ss-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.cq-ss-thumb {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 0.3rem;
+  border: 1px solid var(--border);
+}
+
+/* ── Buttons ────────────────────────────────────────────── */
+.btn-primary-sm {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--accent); color: #0a0a0a; border: none;
+  border-radius: 0.5rem; padding: 0.5rem 1rem;
+  font-size: 0.85rem; font-weight: 600; font-family: inherit;
+  transition: background 0.2s; cursor: pointer;
+}
+.btn-primary-sm:hover { background: var(--accent-hover); }
+
+.btn-ghost-sm {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-secondary); border-radius: 0.5rem;
+  padding: 0.45rem 0.85rem; font-size: 0.82rem; font-weight: 600;
+  font-family: inherit; transition: all 0.2s; cursor: pointer;
+  text-decoration: none;
+}
+.btn-ghost-sm:hover { border-color: var(--accent); color: var(--accent-hover); }
+
+.btn-link {
+  background: transparent; border: none; color: var(--accent-hover);
+  font-size: 0.82rem; font-weight: 600; padding: 0;
+  font-family: inherit; cursor: pointer;
+}
+.btn-link:hover { text-decoration: underline; }
+
+/* ── Empty state ─────────────────────────────────────────── */
+.empty-state {
+  padding: 2.5rem; text-align: center; color: var(--text-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+
+.empty-state code {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.8rem;
+  color: var(--accent-hover);
+}

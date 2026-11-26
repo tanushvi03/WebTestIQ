@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-11-01T23:33:22.027Z",
+  "durationMs": 5357,
+  "overallPassed": true,
+  "summary": {
+    "total": 35,
+    "passed": 35,
+    "failed": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "suite": "Newman API Tests",
+      "exitCode": 0,
+      "passed": 35,
+      "failed": 0,
+      "total": 35,
+      "requests": 16,
+      "reportFile": "/Users/tanushvimadaan/Documents/Software testing project/tests/newman/results/self-test-1793576003567.json"
+    }
+  ]
+}

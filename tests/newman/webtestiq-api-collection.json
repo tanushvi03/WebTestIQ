@@ -1,0 +1,473 @@
+{
+  "info": {
+    "name": "WebTestIQ — Backend API Test Suite",
+    "_postman_id": "webtestiq-api-v1",
+    "description": "Complete API test collection for the WebTestIQ backend.\nCovers: health, test lifecycle, results, reports, history, and error handling.\n\nPre-requisite: Backend running on http://localhost:5001\n\nRun with Newman:\n  npx newman run webtestiq-api-collection.json --env-var baseUrl=http://localhost:5001",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5001",
+      "type": "string"
+    },
+    {
+      "key": "sessionId",
+      "value": "",
+      "type": "string",
+      "description": "Populated automatically by the Start Test request"
+    }
+  ],
+  "item": [
+
+    {
+      "name": "01 — Health Check",
+      "item": [
+        {
+          "name": "GET /api/health → 200 OK",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('status field is ok', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.status).to.equal('ok');",
+                  "});",
+                  "pm.test('timestamp field present', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.timestamp).to.be.a('string');",
+                  "});",
+                  "pm.test('Response time < 500 ms', () => {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "02 — Start Test",
+      "item": [
+        {
+          "name": "POST /api/test/start — valid URL",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 202 Accepted', () => pm.response.to.have.status(202));",
+                  "pm.test('Response has sessionId', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.sessionId).to.be.a('string').and.have.length.above(0);",
+                  "  pm.collectionVariables.set('sessionId', body.sessionId);",
+                  "});",
+                  "pm.test('Content-Type is JSON', () => {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/test/start",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"options\": {\n    \"runUi\": true,\n    \"runAccessibility\": false,\n    \"runApi\": false\n  }\n}"
+            }
+          }
+        },
+
+        {
+          "name": "POST /api/test/start — missing URL → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400 Bad Request', () => pm.response.to.have.status(400));",
+                  "pm.test('Response contains error message', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.error).to.be.a('string').and.have.length.above(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/test/start",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+
+        {
+          "name": "POST /api/test/start — invalid URL → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400 Bad Request', () => pm.response.to.have.status(400));",
+                  "pm.test('Error message mentions URL', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.error.toLowerCase()).to.include('url');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/test/start",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"url\": \"not-a-valid-url\" }"
+            }
+          }
+        },
+
+        {
+          "name": "POST /api/test/start — non-http scheme → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Error mentions http/https', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.error.toLowerCase()).to.satisfy(msg => msg.includes('http') || msg.includes('url'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/test/start",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"url\": \"ftp://example.com\" }"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "03 — Test Status",
+      "item": [
+        {
+          "name": "GET /api/test/status/:sessionId — valid session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response has sessionId field', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.sessionId).to.be.a('string');",
+                  "});",
+                  "pm.test('Response has phase field', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(['queued','running','completed','error']).to.include(body.phase);",
+                  "});",
+                  "pm.test('Response has stages object', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.stages).to.be.an('object');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/test/status/{{sessionId}}"
+          }
+        },
+
+        {
+          "name": "GET /api/test/status — unknown sessionId → 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Error field present', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/test/status/00000000-0000-0000-0000-000000000000"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "04 — Results",
+      "item": [
+        {
+          "name": "GET /api/results — unknown id → 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Error field present', () => {",
+                  "  pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/results/nonexistent-session-id"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "05 — Reports",
+      "item": [
+        {
+          "name": "GET /api/reports → 200 array",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});",
+                  "pm.test('Response time < 1000 ms', () => {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports"
+          }
+        },
+
+        {
+          "name": "GET /api/reports — unknown id → 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports/nonexistent-session-id"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "06 — History",
+      "item": [
+        {
+          "name": "GET /api/history → 200 array",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});",
+                  "pm.test('If items exist, each has sessionId + url fields', () => {",
+                  "  const items = pm.response.json();",
+                  "  if (items.length > 0) {",
+                  "    pm.expect(items[0]).to.have.property('sessionId');",
+                  "    pm.expect(items[0]).to.have.property('url');",
+                  "    pm.expect(items[0]).to.have.property('status');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/history"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "07 — Edge Cases",
+      "item": [
+        {
+          "name": "POST /api/test/start — empty string URL → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/test/start",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"url\": \"\" }"
+            }
+          }
+        },
+
+        {
+          "name": "POST /api/test/start — whitespace URL → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/test/start",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"url\": \"   \" }"
+            }
+          }
+        },
+
+        {
+          "name": "GET unknown endpoint → 404 or handled",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 404', () => {",
+                  "  pm.expect(pm.response.code).to.equal(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/nonexistent-endpoint"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "08 — Crawl Field Assertions",
+      "item": [
+        {
+          "name": "Completed result has crawl field",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Only assert if the session is already completed — skip if still running",
+                  "const body = pm.response.json();",
+                  "if (pm.response.code === 200 && body.status === 'completed') {",
+                  "  pm.test('crawl field exists', () => pm.expect(body.crawl).to.be.an('object'));",
+                  "  pm.test('crawl.publicPages is array', () => pm.expect(body.crawl.publicPages).to.be.an('array'));",
+                  "  pm.test('crawl.authPages is array', () => pm.expect(body.crawl.authPages).to.be.an('array'));",
+                  "  pm.test('crawl.errorPages is array', () => pm.expect(body.crawl.errorPages).to.be.an('array'));",
+                  "  pm.test('crawl.totalVisited is number', () => pm.expect(body.crawl.totalVisited).to.be.a('number'));",
+                  "  pm.test('crawl.limited is boolean', () => pm.expect(body.crawl.limited).to.be.a('boolean'));",
+                  "  pm.test('summary.total = passed + failed', () => {",
+                  "    const s = body.summary;",
+                  "    pm.expect(s.total).to.equal(s.passed + s.failed);",
+                  "  });",
+                  "} else {",
+                  "  pm.test('Result not yet completed — skipping crawl assertions', () => true);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/results/{{sessionId}}"
+          }
+        },
+
+        {
+          "name": "Status stages include crawling field",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('stages.crawling field exists', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.stages).to.have.property('crawling');",
+                  "});",
+                  "pm.test('stages.url_validation exists', () => {",
+                  "  pm.expect(pm.response.json().stages).to.have.property('url_validation');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/test/status/{{sessionId}}"
+          }
+        }
+      ]
+    }
+
+  ]
+}

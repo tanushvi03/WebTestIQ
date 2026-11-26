@@ -1,0 +1,21 @@
+{
+  "name": "webtestiq",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-Powered Web Quality & Accessibility Testing Platform",
+  "scripts": {
+    "install:all":       "npm install --prefix frontend --legacy-peer-deps && npm install --prefix backend && npm install --prefix tests/playwright && npm install --prefix tests/newman && npm install --prefix tests/accessibility",
+    "dev:backend":       "npm run dev --prefix backend",
+    "dev:frontend":      "npm start  --prefix frontend",
+    "test:api":          "node tests/newman/run-api-tests.js",
+    "test:e2e":          "npm test   --prefix tests/playwright",
+    "test:e2e:headed":   "npm run test:headed --prefix tests/playwright",
+    "test:a11y":         "node tests/accessibility/run-a11y-tests.js",
+    "test:self":         "node tests/run-self-tests.js",
+    "test:self:api":     "node tests/run-self-tests.js --api-only",
+    "test:self:e2e":     "node tests/run-self-tests.js --e2e-only",
+    "test:self:headed":  "node tests/run-self-tests.js --headed",
+    "test:cucumber":     "node tests/run-self-tests.js --cucumber-only",
+    "test:cucumber:headed": "HEADED=true node tests/cucumber/run-cucumber.js"
+  }
+}

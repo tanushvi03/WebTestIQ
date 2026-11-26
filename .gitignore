@@ -1,0 +1,36 @@
+# ── Node modules (all packages) ──────────────────────────
+node_modules/
+**/node_modules/
+
+# ── Environment files (secrets) ──────────────────────────
+backend/.env
+.env
+.env.local
+.env.production
+
+# ── Build output ──────────────────────────────────────────
+frontend/build/
+frontend/.cache/
+
+# ── Test artifacts ────────────────────────────────────────
+tests/playwright/playwright-report/
+tests/playwright/test-results/
+tests/playwright/results/
+tests/cucumber/reports/
+tests/newman/results/
+tests/accessibility/results/
+
+# ── Logs ─────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
+# ── macOS ─────────────────────────────────────────────────
+.DS_Store
+**/.DS_Store
+
+# ── Playwright browsers (large binaries) ─────────────────
+# These are downloaded via: npx playwright install
+# backend/node_modules is already excluded above
+
+# ── VS Code ──────────────────────────────────────────────
+.vscode/

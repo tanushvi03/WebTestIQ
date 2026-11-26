@@ -1,0 +1,17 @@
+{
+  "name": "webtestiq-newman",
+  "version": "1.0.0",
+  "description": "Newman API test collection runner for WebTestIQ backend",
+  "main": "run-api-tests.js",
+  "scripts": {
+    "test":      "node run-api-tests.js",
+    "test:local":"node run-api-tests.js http://localhost:5001"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "newman": "^6.2.2"
+  }
+}

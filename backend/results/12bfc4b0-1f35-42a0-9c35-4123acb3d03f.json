@@ -1,0 +1,35 @@
+{
+  "sessionId": "12bfc4b0-1f35-42a0-9c35-4123acb3d03f",
+  "url": "https://example.com/",
+  "status": "completed",
+  "createdAt": "2026-09-22T14:31:40.664Z",
+  "summary": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "score": 100
+  },
+  "ui": {
+    "passed": 0,
+    "failed": 0,
+    "tests": [],
+    "issues": [
+      {
+        "description": "UI testing aborted: browser.newContext: Target page, context or browser has been closed",
+        "severity": "critical"
+      }
+    ],
+    "screenshots": [],
+    "consoleErrors": []
+  },
+  "accessibility": null,
+  "api": null,
+  "aiAnalysis": {
+    "summary": "The website is in good overall health.",
+    "failures": [],
+    "recommendations": [
+      "Re-run tests after fixes to confirm issues are resolved."
+    ],
+    "model": "Offline (rule-based)"
+  }
+}

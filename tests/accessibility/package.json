@@ -1,0 +1,16 @@
+{
+  "name": "webtestiq-accessibility-tests",
+  "version": "1.0.0",
+  "description": "Standalone axe-core accessibility tests for WebTestIQ pages",
+  "main": "run-a11y-tests.js",
+  "scripts": {
+    "test":      "node run-a11y-tests.js",
+    "test:local":"node run-a11y-tests.js http://localhost:3000"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.42.1",
+    "@axe-core/playwright": "^4.8.5"
+  }
+}
